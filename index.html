@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Campaign Radar</title>
+<meta name="theme-color" content="#0e1012">
+<style>
+  :root{
+    --bg:#0e1012; --panel:#16191d; --panel2:#1e2228; --line:#2a2f37;
+    --text:#eceff2; --muted:#8a929c; --faint:#5c646e;
+    --accent:#ffb020; --accent-d:#c9881a;
+    --go:#2ecc71; --warn:#e9b25f; --bad:#e2605a;
+    --radius:16px;
+    --ui:'Hanken Grotesk',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--ui);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;
+    padding:env(safe-area-inset-top,0) 0 0}
+  .wrap{max-width:540px;margin-inline:auto;
+    padding-left:max(16px,env(safe-area-inset-left,0px));
+    padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
+  ::selection{background:var(--accent);color:#1a1205}
+  header{position:sticky;top:0;z-index:15;background:var(--bg);padding-top:16px;padding-bottom:10px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .dot{width:30px;height:30px;border-radius:9px;background:var(--accent);flex:none;display:grid;place-items:center;color:#1a1205;font-weight:800;font-size:1.05rem}
+  h1{font-size:1.5rem;font-weight:800;letter-spacing:-.02em;margin:0;line-height:1}
+  .tagline{color:var(--muted);font-size:.8rem;margin-top:3px}
+  .sortbar{display:flex;gap:6px;margin-top:12px}
+  .sortbar button{flex:1;background:var(--panel);border:1px solid var(--line);color:var(--muted);border-radius:10px;font-family:var(--ui);font-size:.8rem;font-weight:600;padding:9px 6px;cursor:pointer}
+  .sortbar button.on{background:var(--accent);color:#1a1205;border-color:var(--accent)}
+  .stamp{color:var(--faint);font-size:.72rem;margin:14px 0 4px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:12px;position:relative;overflow:hidden}
+  .rail{position:absolute;left:0;top:0;bottom:0;width:4px}
+  .verdict{display:inline-flex;align-items:center;gap:6px;font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:999px}
+  .v-strong{background:rgba(46,204,113,.14);color:var(--go)}
+  .v-ok{background:rgba(233,178,95,.14);color:var(--warn)}
+  .v-crowd{background:rgba(226,96,90,.14);color:var(--bad)}
+  .title{font-size:1.12rem;font-weight:700;letter-spacing:-.01em;margin:9px 0 2px;line-height:1.25}
+  .by{color:var(--muted);font-size:.78rem}
+  .why{color:var(--text);font-size:.85rem;margin:9px 0 0;background:var(--panel2);border-radius:9px;padding:8px 10px;border:1px solid var(--line)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}
+  .cell{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+  .cell .l{font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);margin-bottom:2px}
+  .cell .v{font-family:var(--mono);font-size:.98rem;font-weight:600}
+  .cell .v.g{color:var(--go)} .cell .v.w{color:var(--warn)} .cell .v.b{color:var(--bad)}
+  .cell .v small{font-family:var(--ui);font-weight:500;color:var(--muted);font-size:.7rem}
+  .plats{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+  .plat{font-size:.68rem;font-family:var(--mono);color:var(--muted);background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
+  .join{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;background:var(--accent);color:#1a1205;font-weight:800;font-size:.98rem;text-decoration:none;border-radius:12px;padding:13px}
+  .join:active{background:var(--accent-d)}
+  .flag{color:var(--warn);font-size:.74rem;margin-top:9px;display:flex;gap:6px;align-items:flex-start}
+  .msg{color:var(--muted);text-align:center;padding:40px 16px;font-size:.9rem}
+  footer{color:var(--faint);font-size:.72rem;text-align:center;margin-top:24px;line-height:1.6}
+  a.link{color:var(--accent)}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="dot">◎</div>
+      <div>
+        <h1>Campaign Radar</h1>
+        <div class="tagline">Best clipping campaigns to join · fewest clippers, fastest payout</div>
+      </div>
+    </div>
+    <div class="sortbar">
+      <button data-sort="score" class="on">Best overall</button>
+      <button data-sort="clippers">Least crowded</button>
+      <button data-sort="budget">Biggest pot</button>
+    </div>
+  </header>
+  <div class="stamp" id="stamp">Loading today's scan…</div>
+  <div id="list"></div>
+  <footer>
+    "Real views" = views to actually cash out at the rate paid (~4× the advertised figure).<br>
+    Joining accepts the campaign's terms — that's you. Always read the brief first.
+  </footer>
+</div>
+
+<script>
+(function(){
+  var sortKey="score", DATA=[];
+
+  // Map a row from suggestions.json (suggest.py output) into what the card needs.
+  function norm(c){
+    var y=c.youtube||c.tiktok||c.instagram||{};
+    return {
+      id:c.id, title:(c.title||"").trim(), brand:c.brand||"", cat:c.category||"",
+      cpm: c.cpm || y.cpm || 0,
+      real: y.views_needed_real || (y.views_needed? y.views_needed*4 : 0) || 0,
+      clippers: c.clippers!=null? c.clippers : 0,
+      budget: c.budget_left!=null? c.budget_left : (y.left||0),
+      app: !!c.application,
+      plats: c.platforms || []
+    };
+  }
+  function score(c){ return (c.cpm/1.5)*(5000/Math.max(c.real,1))*(20/(c.clippers+5))*Math.min(c.budget/3000,3); }
+  function compLevel(n){ return n<=10?"g":n<=50?"w":"b"; }
+  function cashWord(v){ return v<=4000?"g":v<=6000?"w":"b"; }
+  function verdict(c){
+    if(c.clippers<=10 && c.budget>=2500) return ["v-strong","Strong","var(--go)"];
+    if(c.clippers>60) return ["v-crowd","Crowded","var(--bad)"];
+    return ["v-ok","Decent","var(--warn)"];
+  }
+  function why(c){
+    if(c.clippers<=5) return "Barely any competition ("+c.clippers+" clipper"+(c.clippers==1?"":"s")+") on a "+money(c.budget)+" pot — easy views are yours.";
+    if(c.clippers>60) return c.clippers+" clippers already on this — strong pay but you're one of a crowd.";
+    if(c.real&&c.real<=4000) return "Cashes out fast ("+c.real.toLocaleString()+" real views) at $"+c.cpm.toFixed(2)+"/1K.";
+    return c.clippers+" clippers, "+money(c.budget)+" left — a solid middle pick.";
+  }
+  function money(n){ return "$"+Math.round(n).toLocaleString(); }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m];}); }
+  function cell(l,v,cls){ return '<div class="cell"><div class="l">'+l+'</div><div class="v '+cls+'">'+v+'</div></div>'; }
+
+  function render(){
+    var arr=DATA.slice();
+    if(sortKey==="score") arr.sort(function(a,b){return score(b)-score(a);});
+    if(sortKey==="clippers") arr.sort(function(a,b){return a.clippers-b.clippers;});
+    if(sortKey==="budget") arr.sort(function(a,b){return b.budget-a.budget;});
+    var el=document.getElementById("list"); el.innerHTML="";
+    if(!arr.length){ el.innerHTML='<div class="msg">No campaigns in the latest scan.</div>'; return; }
+    arr.forEach(function(c){
+      var v=verdict(c), card=document.createElement("div"); card.className="card";
+      card.innerHTML='<div class="rail" style="background:'+v[2]+'"></div>'
+        +'<span class="verdict '+v[0]+'">● '+v[1]+'</span>'
+        +'<div class="title">'+esc(c.title)+'</div>'
+        +'<div class="by">'+esc(c.brand)+(c.cat?' · '+esc(c.cat):'')+'</div>'
+        +'<div class="grid">'
+          +cell("Rate","$"+c.cpm.toFixed(2)+"<small>/1K</small>","")
+          +cell("Cashes out",(c.real?c.real.toLocaleString():"?")+"<small> views</small>",cashWord(c.real))
+          +cell("Competition",c.clippers+"<small> clipper"+(c.clippers==1?"":"s")+"</small>",compLevel(c.clippers))
+          +cell("Pot left",money(c.budget),c.budget>=5000?"g":"")
+        +'</div>'
+        +'<div class="why">'+esc(why(c))+'</div>'
+        +'<div class="plats">'+c.plats.map(function(p){return '<span class="plat">'+esc(p)+'</span>';}).join("")+'</div>'
+        +(c.app?'':'<div class="flag">⚠ Read the brief before joining (follower / geo / dedicated-page rules).</div>')
+        +'<a class="join" href="https://contentrewards.com/discover/'+encodeURIComponent(c.id)+'" target="_blank" rel="noopener">Join on Content Rewards ↗</a>';
+      el.appendChild(card);
+    });
+  }
+
+  document.querySelectorAll(".sortbar button").forEach(function(b){
+    b.onclick=function(){
+      document.querySelectorAll(".sortbar button").forEach(function(x){x.classList.remove("on");});
+      b.classList.add("on"); sortKey=b.getAttribute("data-sort"); render();
+    };
+  });
+
+  fetch("suggestions.json?t="+Date.now())
+    .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(j){
+      var rows = Array.isArray(j)? j : (j.clips||j.campaigns||[]);
+      DATA = rows.map(norm).filter(function(c){return c.id;});
+      document.getElementById("stamp").textContent =
+        DATA.length+" campaign"+(DATA.length==1?"":"s")+" · refreshed "+new Date().toLocaleString(undefined,{weekday:"short",hour:"2-digit",minute:"2-digit"});
+      render();
+    })
+    .catch(function(e){
+      document.getElementById("stamp").textContent="Couldn't load today's scan.";
+      document.getElementById("list").innerHTML='<div class="msg">No <b>suggestions.json</b> next to this page yet.<br>Your Mac uploads it after the 7:20am scan.</div>';
+    });
+})();
+</script>
+</body>
+</html>
