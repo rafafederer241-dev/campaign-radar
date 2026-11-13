@@ -1,50 +1,16 @@
 [
   {
-    "id": "51fa8c57-fb2f-44e0-b3a8-158f96cbf018",
-    "title": "November 2B1C Clipping",
-    "brand": "YMH Studios",
-    "category": "Comedy Podcast",
-    "description": "We have a brand new episode of 2 Bears 1 Cave. Clip the best moments from the youtube episode and make an original edit. For this campaign we'll be accepting Instagram",
-    "cpm": 1.0,
-    "budget_left": 4972.69,
-    "budget_total": 5000.0,
-    "clippers": 1,
-    "submissions": 2,
-    "age": "today",
-    "application": false,
-    "platforms": [
-      "instagram",
-      "tiktok",
-      "youtube"
-    ],
-    "exp": "exp_PUkto6HQ1zGsge",
-    "caution": [
-      "no rules doc found - read the brief manually"
-    ],
-    "youtube": {
-      "platform": "youtube",
-      "cpm": 1.0,
-      "min_payout": 2.0,
-      "max_payout": 200.0,
-      "left": 4972.69,
-      "views_needed": 2000,
-      "views_needed_real": 8000,
-      "type": "cpm",
-      "why": "$1.00/1K, cashes at 2,000 views (8,000 at the rate actually paid), $4,973 left"
-    }
-  },
-  {
-    "id": "8663de46-a5c9-4ab8-9368-7c462a78aa4e",
-    "title": "Perplexity Rohith Kolluri x Ecomm Cowboy",
+    "id": "0c887034-ce77-4468-b33c-7592b799847b",
+    "title": "FOMO x ClipFarm (Creator Clipping)",
     "brand": "Clip Farm",
     "category": "Entertainment",
-    "description": "Perplexity is an AI app. It answers your questions. Clip the top moments from the Rohith Kolluri x Ecomm Cowboy Podcast Segment. Must tie back to Perplexity and make people want to try it. You earn money for every view.",
+    "description": "FOMO's founders and traders are doing podcasts and interviews",
     "cpm": 2.0,
-    "budget_left": 16000.0,
-    "budget_total": 16000.0,
-    "clippers": 0,
-    "submissions": 0,
-    "age": "4d",
+    "budget_left": 5443.23,
+    "budget_total": 10200.0,
+    "clippers": 92,
+    "submissions": 168,
+    "age": "3d",
     "application": false,
     "platforms": [
       "instagram",
@@ -59,12 +25,12 @@
       "platform": "youtube",
       "cpm": 2.0,
       "min_payout": 4.0,
-      "max_payout": 250.0,
-      "left": 16000.0,
+      "max_payout": 300.0,
+      "left": 5443.23,
       "views_needed": 2000,
       "views_needed_real": 8000,
       "type": "cpm",
-      "why": "$2.00/1K, cashes at 2,000 views (8,000 at the rate actually paid), $16,000 left"
+      "why": "$2.00/1K, cashes at 2,000 views (8,000 at the rate actually paid), $5,443 left"
     }
   }
 ]
